@@ -26,7 +26,7 @@
 			input.on( 'change', toggleUploadButton );
 		} )();
 
-		$( '#avatar-manager-choose-from-library-link' ).click( function( event ) {
+		$( '#avatar-manager-choose-from-library-link' ).on( 'click', function( event ) {
 			var $el = $( this );
 
 			event.preventDefault();

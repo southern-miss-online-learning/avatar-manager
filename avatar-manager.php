@@ -6,7 +6,7 @@
 Plugin Name: Avatar Manager
 Plugin URI: https://wordpress.org/plugins/avatar-manager/
 Description: Avatar Manager for WordPress is a sweet and simple plugin for storing avatars locally and more. Easily.
-Version: 1.6.1
+Version: 1.6.2
 Author: Cătălin Dogaru
 Author URI: https://profiles.wordpress.org/cdog/
 License: GPLv2 or later
@@ -31,7 +31,7 @@ this program; if not, write to the Free Software Foundation, Inc., 51 Franklin
 Street, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-define( 'AVATAR_MANAGER_VERSION', '1.6.1' );
+define( 'AVATAR_MANAGER_VERSION', '1.6.2' );
 define( 'AVATAR_MANAGER_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'AVATAR_MANAGER_AVATAR_UPLOADS', 0 );
 define( 'AVATAR_MANAGER_DEFAULT_SIZE', 96 );
@@ -287,12 +287,13 @@ function avatar_manager_edit_user_profile( $profileuser ) {
 						</label>
 						<?php
 						if ( current_user_can( 'upload_files' ) || $options['avatar_uploads'] ) {
+							$isProfilePage = defined('IS_PROFILE_PAGE') ? constant('IS_PROFILE_PAGE') : false;
 							$href = add_query_arg( array(
 								'action'                => 'update',
 								'avatar_manager_action' => 'remove-avatar',
 								'user_id'               => $profileuser->ID
 							),
-							self_admin_url( IS_PROFILE_PAGE ? 'profile.php' : 'user-edit.php' ) );
+							self_admin_url( $isProfilePage ? 'profile.php' : 'user-edit.php' ) );
 							?>
 							<a class="delete" href="<?php echo wp_nonce_url( $href, 'update-user_' . $profileuser->ID ); ?>" onclick="return showNotice.warn();">
 								<?php _e( 'Delete', 'avatar-manager' ); ?>
@@ -331,12 +332,13 @@ function avatar_manager_edit_user_profile( $profileuser ) {
 								</label><!-- .description -->
 								<br>
 								<?php
+								$isProfilePage = defined('IS_PROFILE_PAGE') ? constant('IS_PROFILE_PAGE') : false;
 								$modal_update_href = add_query_arg( array(
 									'action'                => 'update',
 									'avatar_manager_action' => 'set-avatar',
 									'user_id'               => $profileuser->ID
 								),
-								self_admin_url( IS_PROFILE_PAGE ? 'profile.php' : 'user-edit.php' ) );
+								self_admin_url( $isProfilePage ? 'profile.php' : 'user-edit.php' ) );
 								?>
 								<a class="button" data-choose="<?php esc_attr_e( 'Choose a Custom Avatar', 'avatar-manager' ); ?>" data-update="<?php esc_attr_e( 'Set as avatar', 'avatar-manager' ); ?>" data-update-link="<?php echo wp_nonce_url( $modal_update_href, 'update-user_' . $profileuser->ID ); ?>" id="avatar-manager-choose-from-library-link">
 									<?php _e( 'Choose Image', 'avatar-manager' ); ?>
