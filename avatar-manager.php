@@ -1141,9 +1141,11 @@ add_filter( 'avatar_defaults', 'avatar_manager_avatar_defaults', 10, 1 );
  */
 function avatar_manager_display_media_states( $media_states ) {
 	global $post;
-
 	// Retrieves attachment meta field based on attachment ID.
-	$meta_avatar = get_post_meta( $post->ID, '_avatar_manager_is_custom_avatar', true );
+	if (gettype($media_states) === "object") {
+		// prevent 500 error on dev when $post isn't set during media library
+		$meta_avatar = get_post_meta( $post->ID, '_avatar_manager_is_custom_avatar', true );
+	}
 
 	if ( ! empty( $meta_avatar ) )
 		$media_states[] = __( 'Avatar Image', 'avatar-manager' );
